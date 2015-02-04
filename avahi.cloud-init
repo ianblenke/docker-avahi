@@ -26,6 +26,18 @@ write_files:
       ( echo -n MachineID=; cat /etc/machine-id ) >> /tmp/avahi@$(hostname).service
       /usr/bin/docker pull ianblenke/avahi:latest
       /usr/bin/fleetctl start /tmp/avahi@$(hostname).service
+  - path: /etc/dbus-1/system.d/avahi.conf
+    permissions: '0644'
+    owner: root
+    content: |
+      <!DOCTYPE busconfig PUBLIC
+      "-//freedesktop//DTD D-Bus Bus Configuration 1.0//EN"
+      "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+      <busconfig>
+          <policy user="root">
+              <allow own="org.freedesktop.Avahi"/>
+          </policy>
+      </busconfig>
   - path: /tmp/avahi@.service
     permissions: '0644'
     owner: root
