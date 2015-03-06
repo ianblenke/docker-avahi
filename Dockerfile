@@ -3,7 +3,10 @@ MAINTAINER Ian Blenke <ian@blenke.com>
 
 # install necessary stuff; avahi, and ssh such that we can log in and control avahi
 RUN apt-get update -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get -qq install -y avahi-daemon avahi-utils
+RUN DEBIAN_FRONTEND=noninteractive apt-get -qq install -y avahi-daemon avahi-utils \
+  && apt-get -qq -y autoclean \
+  && apt-get -qq -y autoremove \
+  && apt-get -qq -y clean
 
 ADD avahi-daemon.conf /etc/avahi/avahi-daemon.conf
 
